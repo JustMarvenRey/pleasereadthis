@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>A message for you</title>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#eeeaf3; --ink:#2a2540; --muted:#6c6684; --accent:#7a5c9e; --accent-ink:#fff;
+  --petal:#e58fb4; --petal2:#f2b6cf; --stem:#5f9a6e; --core:#f2c14e;
+  box-sizing:border-box; padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){--bg:#15162b; --ink:#ece8f6; --muted:#9a93b4; --accent:#c4a6e6; --accent-ink:#15162b; --stem:#7fbf8e;}
+}
+:root[data-theme="dark"]{--bg:#15162b; --ink:#ece8f6; --muted:#9a93b4; --accent:#c4a6e6; --accent-ink:#15162b; --stem:#7fbf8e;}
+*,*::before,*::after{box-sizing:inherit}
+html,body{height:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Lora",Georgia,"Times New Roman",serif}
+.bar{position:fixed;left:0;top:env(safe-area-inset-top,0px);height:3px;width:0;background:var(--accent);transition:width .6s ease}
+main{min-height:100%;max-width:640px;margin:0 auto;padding:48px 24px;display:flex;flex-direction:column;justify-content:center}
+#text{font-size:1.3rem;line-height:1.9;margin:0;min-height:12em}
+#text[hidden],#finale[hidden]{display:none}
+.caret::after{content:"";display:inline-block;width:2px;height:1.1em;background:var(--accent);margin-left:2px;vertical-align:text-bottom;animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+.foot{margin-top:28px;display:flex;align-items:center;justify-content:space-between;min-height:48px}
+.count{color:var(--muted);font-size:.9rem}
+button{font:inherit;font-size:1rem;cursor:pointer;border-radius:999px;padding:12px 30px;border:1px solid var(--accent);background:var(--accent);color:var(--accent-ink)}
+button:active{transform:scale(.97)}
+button:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.hidden{visibility:hidden}
+
+#finale{text-align:center}
+#flower{width:min(220px,60vw);height:auto;display:block;margin:0 auto 8px}
+.petal{transform-origin:100px 100px;transform:rotate(var(--r)) scale(.18);transition:transform 1.6s cubic-bezier(.2,.8,.2,1)}
+.bloom .petal{transform:rotate(var(--r)) scale(1)}
+#sweet{font-size:1.2rem;line-height:1.85;margin:12px 0 0;opacity:0;transition:opacity 1.2s ease}
+#sweet.on{opacity:1}
+@media (prefers-reduced-motion:reduce){.caret::after{animation:none}.bar,.petal,#sweet{transition:none}}
+</style>
+</head>
+<body>
+<div class="bar" id="bar"></div>
+<main>
+  <p id="text" aria-live="polite"></p>
+  <div id="finale" hidden>
+    <svg id="flower" viewBox="0 0 200 260" role="img" aria-label="A flower bud that opens into a pink flower">
+      <path d="M100 118 C100 170 98 210 100 252" fill="none" stroke="var(--stem)" stroke-width="5" stroke-linecap="round"/>
+      <ellipse cx="78" cy="190" rx="9" ry="22" fill="var(--stem)" transform="rotate(-50 78 190)"/>
+      <ellipse cx="122" cy="212" rx="9" ry="22" fill="var(--stem)" transform="rotate(50 122 212)"/>
+      <g>
+        <ellipse class="petal" style="--r:0deg" cx="100" cy="66" rx="15" ry="32" fill="var(--petal)"/>
+        <ellipse class="petal" style="--r:45deg" cx="100" cy="66" rx="15" ry="32" fill="var(--petal2)"/>
+        <ellipse class="petal" style="--r:90deg" cx="100" cy="66" rx="15" ry="32" fill="var(--petal)"/>
+        <ellipse class="petal" style="--r:135deg" cx="100" cy="66" rx="15" ry="32" fill="var(--petal2)"/>
+        <ellipse class="petal" style="--r:180deg" cx="100" cy="66" rx="15" ry="32" fill="var(--petal)"/>
+        <ellipse class="petal" style="--r:225deg" cx="100" cy="66" rx="15" ry="32" fill="var(--petal2)"/>
+        <ellipse class="petal" style="--r:270deg" cx="100" cy="66" rx="15" ry="32" fill="var(--petal)"/>
+        <ellipse class="petal" style="--r:315deg" cx="100" cy="66" rx="15" ry="32" fill="var(--petal2)"/>
+        <circle cx="100" cy="100" r="14" fill="var(--core)"/>
+      </g>
+    </svg>
+    <p id="sweet">this flower is for you. i’m sorry for how i made you feel. you didn’t deserve it, and it was my fault. i appreciate you more than i ever showed, and i’ll be more careful with your feelings from now on.</p>
+  </div>
+  <div class="foot">
+    <span class="count" id="count"></span>
+    <button id="next" type="button" class="hidden">Next</button>
+  </div>
+</main>
+<script>
+(function(){
+  var paras = [
+    "i-i-i'm sorry... i-i-i just... realized sa nagawa q, and i-i-im genuinely sorry about it.. i dont know even what to say anymore nor what to do.. im genuinely embarrassed sa nagawa q... i swear i never meant to hurt you or make you feel that way.. i  dont have any bad intentions, and i hope you know that... i know that doesn't change the fact sa nagawa kung mali.. i-i-im sorry baby...",
+    "nahihiya aq sa nagawa q tas sa sarili q baket ganto ganyan... nahihiya aq e confront ikaw.. after sa nagawa q... i keep thinking about it, about i should've done, sa dabat sinabi q, sana binaliwala q nlng ung feelings q and how i could've handled things differently... nakakahiya, ang tanga q subra, ang bobo ko, apaka immature, and everything... sorry for not realizing it sooner...",
+    "s-s-sorry for being unfair talaga sayo.. for making you feel that way.. for making you feel that i dont appreciate all the things you've done to me, and for the things I've done that might have hurt you without me even realizing it.. i know that you didn't deserve all of those... you're not wrong also sa nagawa mo.. wala kang kasalanan.. its all my fault.. and also you didn't do anything bad to deserve being treated that way...",
+    "d-d-diko alam, diko alam talaga what's wrong with me sometimes... palagi nlng palpak and everything, and now that na realized q na, diko alam pano e tama ung nagawa q... i appreciate you, i mean it... more than i probably ever showed... i appreciate everything what you did to me especially your patience, your efforts, your understand and everything you've done for me... and i'm sorry alaga sa nagawa q and everything na ka palpakan na gawa q... i appreciate you with all my heart... and i love you with all my heart...",
+    "i-im so so so sorry... i dont want you to think that i dont care and dont appreciate the things you've done to me... because i do.. i really, really do appreciate the things you've done and also it means everything to me that knowing you've been doing this and that just for me... im not trying to make excuses for myself or make you feel bad for me... i just.. i wish i could take back the things I've done and handle it everything differently.. i know saying sorry wont immediately fix anything, kaya.. im realy really sorry.. i down on my knees... im really sorry.. i do mean it with all my heart...",
+    "i-it's all my fault.. sana i should've been more understanding, more considerate, and more careful with your feelings and also be moree mature... i should've thought about how you would feel instead of just acting the stupidity i did.. im really sorry.. im genuinely sorry about what I've done..."
+  ];
+  var text=document.getElementById("text"), nextB=document.getElementById("next"),
+      bar=document.getElementById("bar"), count=document.getElementById("count"),
+      finale=document.getElementById("finale"), flower=document.getElementById("flower"),
+      sweet=document.getElementById("sweet");
+  var reduce = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var idx=0, timer=null, stage="text";
+
+  function show(){
+    stage="text"; finale.hidden=true; text.hidden=false;
+    var full=paras[idx], i=0;
+    nextB.classList.add("hidden");
+    count.textContent=(idx+1)+" of "+paras.length;
+    bar.style.width=((idx+1)/paras.length*100)+"%";
+    clearTimeout(timer);
+    if(reduce){ text.textContent=full; done(); return; }
+    text.classList.add("caret");
+    (function tick(){
+      i++; text.textContent=full.slice(0,i);
+      if(i>=full.length){ done(); return; }
+      var c=full.charAt(i-1);
+      timer=setTimeout(tick, /[.…]/.test(c)?260:(c===","?140:26));
+    })();
+  }
+  function done(){
+    clearTimeout(timer); timer=null;
+    text.textContent=paras[idx]; text.classList.remove("caret");
+    nextB.textContent="Next";
+    nextB.classList.remove("hidden"); nextB.focus({preventScroll:true});
+  }
+  function showFinale(){
+    stage="bud"; text.hidden=true; finale.hidden=false;
+    flower.classList.remove("bloom"); sweet.classList.remove("on");
+    count.textContent="A flower for you"; bar.style.width="100%";
+    nextB.textContent="Open the flower"; nextB.classList.remove("hidden");
+    window.scrollTo(0,0);
+  }
+  function bloom(){
+    stage="bloomed"; nextB.classList.add("hidden");
+    flower.classList.add("bloom");
+    setTimeout(function(){
+      sweet.classList.add("on");
+      nextB.textContent="Read again"; nextB.classList.remove("hidden");
+    }, reduce?0:1400);
+  }
+  text.addEventListener("click",function(){ if(timer) done(); });
+  nextB.addEventListener("click",function(){
+    if(stage==="bud"){ bloom(); return; }
+    if(stage==="bloomed"){ idx=0; show(); return; }
+    if(idx<paras.length-1){ idx++; show(); } else { showFinale(); }
+  });
+  show();
+})();
+</script>
+</body>
+</html>
